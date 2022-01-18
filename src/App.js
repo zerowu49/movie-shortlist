@@ -6,15 +6,30 @@ import "swiper/css/navigation";
 import emptyImg from "./images/empty.png";
 
 import SwiperCore, { Autoplay, Navigation } from "swiper";
+import { useEffect, useState } from "react";
+import customFunc, { baseImageUrl } from "./customFunc";
+import React from "react";
 
 // install Swiper modules
 SwiperCore.use([Navigation, Autoplay]);
 
 function App() {
-  const listImage = [
-    "https://cdn.pixabay.com/photo/2018/01/18/19/06/time-3091031__340.jpg",
-    "https://cdn.pixabay.com/photo/2017/09/30/22/16/rail-2803725__340.jpg",
-  ];
+  const [genres, setGenres] = useState([]);
+  const [listGenres, setListGenres] = useState([]);
+  const [discoverMovie, setDiscoverMovie] = useState([]);
+
+  useEffect(() => {
+    customFunc.fetchGenreList().then((d) => {
+      setGenres(d);
+    });
+    customFunc.fetchDiscoverMovie().then((d) => {
+      setDiscoverMovie(d);
+    });
+  }, []);
+
+  const listImage = discoverMovie.map((d) => {
+    return { img: baseImageUrl + d["backdrop_path"], title: d["title"] };
+  });
 
   const myImage = [
     "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
@@ -28,7 +43,8 @@ function App() {
     header = listImage.map((image) => {
       return (
         <SwiperSlide>
-          <img className="App-logo" src={image} alt="Image" />
+          <img className="App-logo" src={image.img} alt="Image" />
+          <figcaption className="align-center">{image.title}</figcaption>
         </SwiperSlide>
       );
     });
@@ -62,6 +78,31 @@ function App() {
     );
   }
 
+  let genresList;
+
+  if (genres.length > 0) {
+    genresList = genres.map((genre) => {
+      // console.log(listGenres);
+      console.log(genre["id"]);
+
+      return (
+        <>
+          <h1>{genre.name}</h1>
+          <div className="flex-scroll">
+            {listGenres.map((image) => {
+              return (
+                <img
+                  className="imglist"
+                  src={baseImageUrl + image["backdrop_path"]}
+                />
+              );
+            })}
+          </div>
+        </>
+      );
+    });
+  }
+
   return (
     <>
       <Swiper loop={true} className="swiper" autoplay={true}>
@@ -70,6 +111,7 @@ function App() {
       <div className="padding">
         <h1>My List</h1>
         {mylist}
+        {genresList}
       </div>
     </>
   );
