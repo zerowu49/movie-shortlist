@@ -6,22 +6,22 @@ import ls from "local-storage";
 
 function ScrollList(genre) {
   const [listGenres, setListGenres] = useState([]);
-  const [myListMovie, setMyListMovie] = useState([]);
+  // @ts-ignore
+  const fav = ls.get("mylist") ?? [];
+  const [myListMovie, setMyListMovie] = useState(fav);
 
   useEffect(() => {
     customFunc.fetchOneGenreWithId(genre.id).then((d) => {
       setListGenres(d);
     });
-
-    // @ts-ignore
-    const fav = ls.get("mylist");
-    if (fav != null) setMyListMovie(fav);
-  }, []);
+  }, [myListMovie]);
 
   const addGenre = (imageUrl) => {
-    myListMovie.push(imageUrl);
+    if (!myListMovie.includes(imageUrl)) myListMovie.push(imageUrl);
     // @ts-ignore
     ls.set("mylist", myListMovie);
+    setMyListMovie(myListMovie);
+    console.log("list has been updated");
   };
 
   let genresList;
@@ -34,12 +34,12 @@ function ScrollList(genre) {
         imagePath = "https://via.placeholder.com/350x200";
       }
       return (
-        <div key={image["id"]} className="align-center">
-          <img
-            className={"imglist " + image["id"]}
-            src={imagePath}
-            onClick={() => addGenre(imagePath)}
-          />
+        <div
+          key={image["id"]}
+          className="align-center"
+          onClick={() => addGenre(imagePath)}
+        >
+          <img className={"imglist " + image["id"]} src={imagePath} />
           <figcaption>{image["title"]}</figcaption>
         </div>
       );

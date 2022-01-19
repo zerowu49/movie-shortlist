@@ -40,3 +40,7 @@ body {
 .align-center{
   text-align: center;
 }
+
+.delete-icon{
+  width: 5vmin;
+}
