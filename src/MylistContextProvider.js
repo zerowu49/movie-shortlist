@@ -20,16 +20,16 @@ const MylistContextProvider = (props) => {
 
   const addGenre = (imageUrl) => {
     if (!myListMovie.includes(imageUrl)) myListMovie.push(imageUrl);
+    const newList = [...myListMovie];
     // @ts-ignore
-    ls.set("mylist", myListMovie);
-    setMyListMovie(myListMovie);
+    ls.set("mylist", newList);
+    setMyListMovie(newList);
     console.log(imageUrl + "has been added to list");
   };
 
   return (
     <MylistContext.Provider
       value={{
-        // @ts-ignore
         myListMovie,
         addGenre,
         deleteGenre,

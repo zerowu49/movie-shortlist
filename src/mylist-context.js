@@ -1,6 +1,6 @@
-import React from "react";
+import React, { createContext } from "react";
 
-const MylistContext = React.createContext({
+const MylistContext = createContext({
   myListMovie: [],
   addGenre: (imageUrl) => {},
   deleteGenre: (imageUrl) => {},
