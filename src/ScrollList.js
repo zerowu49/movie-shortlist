@@ -1,28 +1,18 @@
 import customFunc, { baseImageUrlW200 } from "customFunc";
-import React from "react";
+import MylistContext from "mylist-context";
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import emptyImg from "./images/empty.png";
-import ls from "local-storage";
 
 function ScrollList(genre) {
+  const mylistContext = useContext(MylistContext);
   const [listGenres, setListGenres] = useState([]);
-  // @ts-ignore
-  const fav = ls.get("mylist") ?? [];
-  const [myListMovie, setMyListMovie] = useState(fav);
 
   useEffect(() => {
     customFunc.fetchOneGenreWithId(genre.id).then((d) => {
       setListGenres(d);
     });
-  }, [myListMovie]);
-
-  const addGenre = (imageUrl) => {
-    if (!myListMovie.includes(imageUrl)) myListMovie.push(imageUrl);
-    // @ts-ignore
-    ls.set("mylist", myListMovie);
-    setMyListMovie(myListMovie);
-    console.log("list has been updated");
-  };
+  }, []);
 
   let genresList;
   if (listGenres.length > 0) {
@@ -37,7 +27,7 @@ function ScrollList(genre) {
         <div
           key={image["id"]}
           className="align-center"
-          onClick={() => addGenre(imagePath)}
+          onClick={() => mylistContext.addGenre(imagePath)}
         >
           <img className={"imglist " + image["id"]} src={imagePath} />
           <figcaption>{image["title"]}</figcaption>
