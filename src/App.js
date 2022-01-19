@@ -7,16 +7,18 @@ import emptyImg from "./images/empty.png";
 
 import SwiperCore, { Autoplay, Navigation } from "swiper";
 import { useEffect, useState } from "react";
-import customFunc, { baseImageUrl } from "./customFunc";
+import customFunc, { baseImageUrl, baseImageUrlW200 } from "./customFunc";
 import React from "react";
+import ScrollList from "ScrollList";
+import ls from "local-storage";
 
 // install Swiper modules
 SwiperCore.use([Navigation, Autoplay]);
 
 function App() {
   const [genres, setGenres] = useState([]);
-  const [listGenres, setListGenres] = useState([]);
   const [discoverMovie, setDiscoverMovie] = useState([]);
+  const [myListMovie, setMyListMovie] = useState([]);
 
   useEffect(() => {
     customFunc.fetchGenreList().then((d) => {
@@ -25,18 +27,15 @@ function App() {
     customFunc.fetchDiscoverMovie().then((d) => {
       setDiscoverMovie(d);
     });
+
+    // @ts-ignore
+    const fav = ls.get("mylist");
+    if (fav != null) setMyListMovie(fav);
   }, []);
 
   const listImage = discoverMovie.map((d) => {
     return { img: baseImageUrl + d["backdrop_path"], title: d["title"] };
   });
-
-  const myImage = [
-    "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-    "https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823__340.jpg",
-    "https://cdn.pixabay.com/photo/2013/10/02/23/03/mountains-190055__340.jpg",
-    "https://cdn.pixabay.com/photo/2018/01/14/23/12/nature-3082832__340.jpg",
-  ];
 
   let header;
   if (listImage.length > 0) {
@@ -61,11 +60,11 @@ function App() {
   }
 
   let mylist;
-  if (myImage.length > 0) {
+  if (myListMovie.length > 0) {
     mylist = (
       <div className="flex-scroll">
-        {myImage.map((image) => {
-          return <img className="imglist" src={image} />;
+        {myListMovie.map((image) => {
+          return <img key={image} className="imglist" src={image} />;
         })}
       </div>
     );
@@ -73,7 +72,7 @@ function App() {
     mylist = (
       <div>
         <img src={emptyImg} className="empty-img" alt="No Image" />
-        <h4 className="align-center">No image in here.</h4>
+        <h4 className="align-center">No movies were marked.</h4>
       </div>
     );
   }
@@ -82,23 +81,11 @@ function App() {
 
   if (genres.length > 0) {
     genresList = genres.map((genre) => {
-      // console.log(listGenres);
-      console.log(genre["id"]);
-
       return (
-        <>
+        <div key={genre.id}>
           <h1>{genre.name}</h1>
-          <div className="flex-scroll">
-            {listGenres.map((image) => {
-              return (
-                <img
-                  className="imglist"
-                  src={baseImageUrl + image["backdrop_path"]}
-                />
-              );
-            })}
-          </div>
-        </>
+          <ScrollList id={genre.id} />
+        </div>
       );
     });
   }
