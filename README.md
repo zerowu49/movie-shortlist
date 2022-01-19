@@ -1,6 +1,7 @@
 # Movie Shortlist
 
 This project was backed by [TMDB API](https://developers.themoviedb.org/3) which displayed movies in the header, your favorite list of movies stored on your browser, and list of movies based on the genres.
+
 To add favorite list of movies, click on the movies on the genres.
 
 To delete, just hover in "My List" section and list will be updated.
