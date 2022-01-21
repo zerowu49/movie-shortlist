@@ -6,10 +6,10 @@ import "swiper/css/navigation";
 
 import SwiperCore, { Autoplay, Navigation } from "swiper";
 import { useContext, useEffect, useState } from "react";
-import customFunc, { baseImageUrl } from "./customFunc";
+import customFunc, { baseImageUrl } from "./data/apiHandler";
 import React from "react";
 import ScrollList from "ScrollList";
-import MylistContext from "mylist-context";
+import MylistContext from "context/mylist-context";
 import MyList from "MyList";
 
 // install Swiper modules

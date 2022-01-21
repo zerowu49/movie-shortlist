@@ -1,11 +1,11 @@
-import customFunc, { baseImageUrlW200 } from "customFunc";
-import MylistContext from "mylist-context";
+import customFunc, { baseImageUrlW200 } from "data/apiHandler";
+import MylistContext from "context/mylist-context";
 import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import emptyImg from "./images/empty.png";
 
 function ScrollList(genre) {
-  const mylistContext = useContext(MylistContext);
+  const { addGenre } = useContext(MylistContext);
   const [listGenres, setListGenres] = useState([]);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function ScrollList(genre) {
         <div
           key={image["id"]}
           className="align-center"
-          onClick={() => mylistContext.addGenre(imagePath)}
+          onClick={() => addGenre(imagePath)}
         >
           <img className={"imglist " + image["id"]} src={imagePath} />
           <figcaption>{image["title"]}</figcaption>

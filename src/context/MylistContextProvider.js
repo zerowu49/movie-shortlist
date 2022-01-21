@@ -1,7 +1,7 @@
 import React from "react";
 import ls from "local-storage";
 import { useState } from "react";
-import MylistContext from "mylist-context";
+import MylistContext from "context/mylist-context";
 
 const MylistContextProvider = (props) => {
   // @ts-ignore

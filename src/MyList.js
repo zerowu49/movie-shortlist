@@ -1,4 +1,4 @@
-import MylistContext from "mylist-context";
+import MylistContext from "context/mylist-context";
 import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 import emptyImg from "./images/empty.png";
