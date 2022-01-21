@@ -21,11 +21,12 @@ function App() {
   const [discoverMovie, setDiscoverMovie] = useState([]);
 
   useEffect(() => {
-    customFunc.fetchGenreList().then((d) => {
-      setGenres(d);
-    });
-    customFunc.fetchDiscoverMovie().then((d) => {
-      setDiscoverMovie(d);
+    Promise.all([
+      customFunc.fetchGenreList(),
+      customFunc.fetchDiscoverMovie(),
+    ]).then((val) => {
+      setGenres(val[0]);
+      setDiscoverMovie(val[1]);
     });
   }, []);
 

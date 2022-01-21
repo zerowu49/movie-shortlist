@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import MylistContextProvider from "MylistContextProvider";
+import MylistContextProvider from "context/MylistContextProvider";
 
 ReactDOM.render(
   <React.StrictMode>

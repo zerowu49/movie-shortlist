@@ -8,7 +8,7 @@ export const baseImageUrl = "https://image.tmdb.org/t/p/original";
 export const baseImageUrlW200 = "https://image.tmdb.org/t/p/w200";
 
 async function fetchGenreList() {
-  return await axios
+  return axios
     .get(urlGenreList + "?api_key=" + token)
     .then((val) => {
       return val.data["genres"];
@@ -20,7 +20,7 @@ async function fetchGenreList() {
 }
 
 async function fetchOneGenreWithId(id) {
-  return await axios
+  return axios
     .get(urlGenreById + id + "?api_key=" + token)
     .then((val) => {
       return val.data["items"];
